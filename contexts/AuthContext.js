@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
     const [errorMessages, setErrorMessages] = useState();
     useEffect(() => {
         GoogleSignin.configure({
-            webClientId: "461297408556-qlsag3ramhudaugsj1si8m3d852aukg4.apps.googleusercontent.com",
+            webClientId: "", // your web client id
         })
     }, [])
     return (
