@@ -265,8 +265,6 @@ const AddPost = () => {
                                 <Text style={[styles.title, { color: 'black' }]}>Resim Seçildi</Text>
                             </View>)
                         }
-
-
                         <Text style={[styles.title, { color: 'black' }]}>İlanın Başlangıç Tarihi:</Text>
                         <View style={{ flex: 1 }}>
                             <DatePicker

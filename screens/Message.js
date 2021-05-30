@@ -11,8 +11,6 @@ const Message = ({ route }) => {
     const [currentUserInfo, setCurrentUserInfo] = useState();
     const user1 = currentUser.uid;
     const user2 = userUid;
-    console.log('1,', user1);
-    console.log('2,', user2);
     var roomName = 'chat_' + (user1 < user2 ? user1 + '_' + user2 : user2 + '_' + user1);
     useEffect(() => {
         //  şuanki kullanıcının bilgilerini al
@@ -151,6 +149,5 @@ const Message = ({ route }) => {
 
     )
 }
-
 export default Message;
 

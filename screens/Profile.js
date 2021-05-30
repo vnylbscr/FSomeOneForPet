@@ -20,6 +20,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import firestore from '@react-native-firebase/firestore';
 import Share from 'react-native-share';
 import CalculatePostDate from '../components/CalculatePostDate';
+
+// Mert Genç b161210045
+// Sakarya University
 const theme = {
   Text: {
     h3Style: {
@@ -39,6 +42,7 @@ export default function Profile({ navigation }) {
   const [userDataFromDb, setUserDataFromDb] = useState(null);
   const [showCommentsVisible, setShowCommentsVisible] = useState(false);
   const [comments, setComments] = useState([]);
+
   useEffect(() => {
     setLoadingInfo(true);
     let reference = firestore().collection('users').doc(user.uid);
@@ -65,8 +69,8 @@ export default function Profile({ navigation }) {
     }
 
   }, [userDataFromDb]);
-  //herhangi bildirim geldiğinde
 
+  // profili paylaş
   const onShare = async () => {
     try {
       Share.open({
@@ -83,6 +87,7 @@ export default function Profile({ navigation }) {
       Alert.alert(`${error.message}`);
     }
   }
+  // değerlendirme modal göster
   const showCommentsModal = () => {
     return (
       <Overlay onBackdropPress={() => setShowCommentsVisible(!showCommentsVisible)}
@@ -269,7 +274,6 @@ export default function Profile({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
     </ThemeProvider>
   );

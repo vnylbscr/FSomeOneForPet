@@ -53,8 +53,7 @@ const EditProfile = () => {
     getUser();
 
   }, []);
-
-
+  // get current user from firestore
   const getUser = async () => {
     setLoading(true);
     try {
@@ -94,10 +93,8 @@ const EditProfile = () => {
 
   // Değişiklikleri kaydet.
   const saveChanges = async () => {
-
     const uri = await uploadImage();
     const reference = firestore().collection('users').doc(user.uid);
-
     //resim eklenmemiş ise
     if (uri === null) {
       reference
@@ -172,7 +169,6 @@ const EditProfile = () => {
       },
     );
   };
-
   const uploadImage = async () => {
     if (profileImg === null) return null;
     const uploadUri = profileImg;
@@ -236,7 +232,7 @@ const EditProfile = () => {
       />
     </View>
   );
-
+  // bottom sheet render header
   const bottomRenderHeader = () => (
     <View style={styles.header}>
       <View style={styles.panelHeader}>
@@ -272,7 +268,6 @@ const EditProfile = () => {
             sendValues={item => setAvailablePets(item)}
             onRequestClose={() => setVisibleModal(!visibleModal)}
           />
-
           <View style={styles.imageContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -296,9 +291,7 @@ const EditProfile = () => {
               </View>
             </TouchableOpacity>
             <Text style={styles.name}> {state ? state.username : 'Isim belirtilmedi'} </Text>
-
           </View>
-
           <View style={styles.action}>
             <Feather
               name="user"
@@ -339,7 +332,6 @@ const EditProfile = () => {
               }
             />
           </View>
-
           <View style={styles.action}>
             <Feather
               name="phone"
@@ -379,7 +371,6 @@ const EditProfile = () => {
                   about: text,
                 })
               }
-
             />
           </View>
           <View style={styles.action}>

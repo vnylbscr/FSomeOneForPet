@@ -31,7 +31,7 @@ const AnimatedImageBackground = ({ ...props }) => {
     )
 }
 const Welcome = ({ navigation }) => {
-    const {anonim} = useContext(AuthContext);
+    const { anonim } = useContext(AuthContext);
     useEffect(() => {
         SplashScreen.hide();
     }, [])

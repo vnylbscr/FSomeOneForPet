@@ -235,7 +235,7 @@ const ShowProfile = ({ route, navigation }) => {
                         {userFromDb && userFromDb.availablePets.length > 0 && userFromDb.availablePets.map((item, index) => {
                             return (
                                 <View style={{ flexDirection: 'column' }}>
-                                    <View style={{ flexDirection: 'row' }}>
+                                    <View style={{ flexDirection: 'row' }} key={index}>
                                         <Icon name='paw-outline' size={25} color='#f7a440' />
                                         <Text key={index} style={styles.infoTextIcon}>{item}</Text>
                                     </View>

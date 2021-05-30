@@ -6,7 +6,9 @@ import {
   Image,
   Dimensions,
   FlatList,
-  Alert
+  Alert,
+  ToastAndroid,
+  TouchableOpacity
 } from 'react-native';
 import {
   Avatar,
@@ -24,11 +26,9 @@ import { AuthContext } from '../contexts/AuthContext';
 import firestore from '@react-native-firebase/firestore';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/Feather';
-import { ToastAndroid } from 'react-native';
 const { width, height } = Dimensions.get('window');
 import CalculatePostDate from '../components/CalculatePostDate';
 import Share from 'react-native-share';
-import { TouchableOpacity } from 'react-native';
 const BG_IMAGE = "https://i.pinimg.com/564x/78/28/cb/7828cba384536458998a822f82ca0fc7.jpg";
 //  Home  //
 export default function Home({ navigation }) {
@@ -175,7 +175,10 @@ export default function Home({ navigation }) {
             <Text style={styles.date}>{item.dateStart.toDate().toLocaleDateString('tr-TR')}</Text>
             <Text style={styles.dateText}>Bitiş Tarihi:</Text>
             <Text style={styles.date}>{item.dateEnd.toDate().toLocaleDateString('tr-TR')}</Text>
-            <Text>Zamanlandı</Text>
+            <Text>tarihleri için zamanlandı</Text>
+          </View>
+          <View>
+            <Text style={styles.postTitle}>İlan Fiyatı : {item.postPrice} TL </Text>
           </View>
 
           <View style={styles.footer}>
