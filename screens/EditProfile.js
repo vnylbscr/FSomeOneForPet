@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,12 +9,12 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import { AuthContext } from '../contexts/AuthContext';
+import {AuthContext} from '../contexts/AuthContext';
 import PickPetModal from './PickPetModal';
-import { Button, Avatar, ThemeProvider } from 'react-native-elements';
+import {Button, Avatar, ThemeProvider} from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -23,12 +23,12 @@ import Loading from '../components/Loading';
 const theme = {
   Button: {
     titleStyle: {
-      fontFamily: 'Poppins-Regular'
-    }
-  }
-}
+      fontFamily: 'Poppins-Regular',
+    },
+  },
+};
 const EditProfile = () => {
-  const { user } = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const sheetRef = useRef(null);
   const [visibleModal, setVisibleModal] = useState(false);
   const [profileImg, setProfileImg] = useState(null);
@@ -51,13 +51,14 @@ const EditProfile = () => {
   //component did mount get user from db
   useEffect(() => {
     getUser();
-
   }, []);
   // get current user from firestore
   const getUser = async () => {
     setLoading(true);
     try {
-      await firestore().collection('users').doc(user.uid)
+      await firestore()
+        .collection('users')
+        .doc(user.uid)
         .get()
         .then(doc => {
           setState({
@@ -76,20 +77,22 @@ const EditProfile = () => {
             ...doc.data(),
           });
         })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
     } catch (error) {
       console.log('Hata:', error);
     }
     setLoading(false);
-  }
+  };
 
   //bakılacak petleri döndüren dizi
   const getAvailablePets = () => {
     const eklenecekPetler = [];
-    availablePets.forEach(item => item.checked === true && eklenecekPetler.push(item.title));
+    availablePets.forEach(
+      item => item.checked === true && eklenecekPetler.push(item.title),
+    );
     console.log(eklenecekPetler);
     return eklenecekPetler;
-  }
+  };
 
   // Değişiklikleri kaydet.
   const saveChanges = async () => {
@@ -123,7 +126,7 @@ const EditProfile = () => {
           availablePets: getAvailablePets(),
           job: state.job,
           phoneNumber: state.phoneNumber,
-          userProfileImagePath: uri
+          userProfileImagePath: uri,
         })
         .then(res => {
           console.log(res);
@@ -134,7 +137,7 @@ const EditProfile = () => {
           Alert.alert(`Profil güncellenemedi.${err}`);
         });
     }
-  }
+  };
   ///////////// Kamera ile çek
   const takePhotoWithCamera = () => {
     launchCamera(
@@ -179,7 +182,7 @@ const EditProfile = () => {
       await task;
       const url = await storageRef.getDownloadURL();
       setKullaniciResimYol(url);
-      console.log("kullanici resmi:", kullaniciResimYol);
+      console.log('kullanici resmi:', kullaniciResimYol);
       console.log('upload image url:' + url);
       Alert.alert('Resim başarıyla yüklendi!');
       setProfileImg(null);
@@ -188,7 +191,7 @@ const EditProfile = () => {
       console.log('Fotoğrafı yüklerken bir hata!', error);
       Alert.alert('Fotoğraf yüklenemedi. Hata:' + error.code);
     }
-  }
+  };
   //Bottom sheet render Item
   const bottomRenderItem = () => (
     <View
@@ -197,38 +200,50 @@ const EditProfile = () => {
         padding: 16,
         height: 300,
       }}>
-      <View style={{ marginTop: 5 }}>
-        <Text style={{ fontSize: 25, textAlign: 'center', color: 'black', fontFamily: 'Poppins-Regular' }}>
+      <View style={{marginTop: 5}}>
+        <Text
+          style={{
+            fontSize: 25,
+            textAlign: 'center',
+            color: 'black',
+            fontFamily: 'Poppins-Regular',
+          }}>
           Fotoğraf Yükle
         </Text>
-        <Text style={{ fontSize: 15, textAlign: 'center', color: 'gray', fontFamily: 'Poppins-Regular' }}>
+        <Text
+          style={{
+            fontSize: 15,
+            textAlign: 'center',
+            color: 'gray',
+            fontFamily: 'Poppins-Regular',
+          }}>
           Ya da Galeriden Bir Fotoğraf Seç
         </Text>
       </View>
 
       <Button
-        buttonStyle={{ backgroundColor: 'tomato', borderRadius: 10 }}
-        title="Fotoğraf Çek"
+        buttonStyle={{backgroundColor: 'tomato', borderRadius: 10}}
+        title='Fotoğraf Çek'
         onPress={takePhotoWithCamera}
         containerStyle={styles.sheetBtn}
-        titleStyle={{ fontFamily: 'Poppins-Regular' }}
+        titleStyle={{fontFamily: 'Poppins-Regular'}}
       />
       <Button
         buttonStyle={{
           backgroundColor: 'tomato',
           borderRadius: 10,
         }}
-        title="Galeriden Seç"
+        title='Galeriden Seç'
         onPress={chooseImageFromLibrary}
         containerStyle={styles.sheetBtn}
-        titleStyle={{ fontFamily: 'Poppins-Regular' }}
+        titleStyle={{fontFamily: 'Poppins-Regular'}}
       />
       <Button
-        buttonStyle={{ backgroundColor: 'tomato', borderRadius: 10 }}
-        title="İptal"
+        buttonStyle={{backgroundColor: 'tomato', borderRadius: 10}}
+        title='İptal'
         onPress={() => sheetRef.current.snapTo(2)}
         containerStyle={styles.sheetBtn}
-        titleStyle={{ fontFamily: 'Poppins-Regular' }}
+        titleStyle={{fontFamily: 'Poppins-Regular'}}
       />
     </View>
   );
@@ -245,9 +260,7 @@ const EditProfile = () => {
   };
   // Yükleniyor
   if (state === undefined) {
-    return (
-      <Loading size='large' color='tomato' />
-    )
+    return <Loading size='large' color='tomato' />;
   }
   // Render
   return (
@@ -273,15 +286,18 @@ const EditProfile = () => {
               onPress={() => {
                 sheetRef.current.snapTo(0);
               }}>
-              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <Avatar
-                  source={{ uri: state.userProfileImagePath && state.userProfileImagePath  }}
-                  size="xlarge"
+                  source={{
+                    uri:
+                      state.userProfileImagePath && state.userProfileImagePath,
+                  }}
+                  size='xlarge'
                   rounded>
                   <Ionicons
-                    name="camera-outline"
+                    name='camera-outline'
                     size={20}
-                    color="black"
+                    color='black'
                     style={{
                       top: -4,
                       right: -4,
@@ -290,38 +306,41 @@ const EditProfile = () => {
                 </Avatar>
               </View>
             </TouchableOpacity>
-            <Text style={styles.name}> {state ? state.username : 'Isim belirtilmedi'} </Text>
+            <Text style={styles.name}>
+              {' '}
+              {state ? state.username : 'Isim belirtilmedi'}{' '}
+            </Text>
           </View>
           <View style={styles.action}>
             <Feather
-              name="user"
+              name='user'
               size={20}
-              color="black"
+              color='black'
               style={styles.iconStyle}
             />
             <TextInput
               style={styles.textInput}
-              placeholder="İsminiz"
+              placeholder='İsminiz'
               autoCorrect={false}
               value={state ? state.username : ''}
               onChangeText={text =>
-                setState(({
+                setState({
                   ...state,
                   username: text,
-                }))
+                })
               }
             />
           </View>
           <View style={styles.action}>
             <Feather
-              name="mail"
+              name='mail'
               size={20}
-              color="black"
+              color='black'
               style={styles.iconStyle}
             />
             <TextInput
               style={styles.textInput}
-              placeholder="Mail Adresi"
+              placeholder='Mail Adresi'
               autoCorrect={false}
               value={state ? state.email : ''}
               onChangeText={text =>
@@ -334,16 +353,16 @@ const EditProfile = () => {
           </View>
           <View style={styles.action}>
             <Feather
-              name="phone"
+              name='phone'
               size={20}
-              color="black"
+              color='black'
               style={styles.iconStyle}
             />
             <TextInput
               style={styles.textInput}
-              placeholder="Telefon Numarası"
+              placeholder='Telefon Numarası'
               autoCorrect={false}
-              keyboardType="numeric"
+              keyboardType='numeric'
               value={state ? state.phoneNumber : ''}
               onChangeText={text =>
                 setState({
@@ -355,14 +374,14 @@ const EditProfile = () => {
           </View>
           <View style={styles.action}>
             <Ionicons
-              name="pencil-outline"
+              name='pencil-outline'
               size={20}
-              color="black"
+              color='black'
               style={styles.iconStyle}
             />
             <TextInput
               style={styles.textInput}
-              placeholder="Hakkında"
+              placeholder='Hakkında'
               autoCorrect={false}
               value={state ? state.about : ''}
               onChangeText={text =>
@@ -375,14 +394,14 @@ const EditProfile = () => {
           </View>
           <View style={styles.action}>
             <Ionicons
-              name="location-outline"
+              name='location-outline'
               size={20}
-              color="black"
+              color='black'
               style={styles.iconStyle}
             />
             <TextInput
               style={styles.textInput}
-              placeholder="Konum"
+              placeholder='Konum'
               autoCorrect={false}
               value={state ? state.userLocation : ''}
               onChangeText={text =>
@@ -395,21 +414,21 @@ const EditProfile = () => {
           </View>
           <TouchableOpacity onPress={displayModal}>
             <View style={styles.action}>
-              <Ionicons name="paw" size={20} color="black" />
-              <Text style={{ fontSize: 15, marginLeft: 10 }}>
+              <Ionicons name='paw' size={20} color='black' />
+              <Text style={{fontSize: 15, marginLeft: 10}}>
                 Bakabileceğin Pet Boyutlarını Düzenle{' '}
               </Text>
             </View>
           </TouchableOpacity>
           <Button
-            type="solid"
-            title="Kaydet"
+            type='solid'
+            title='Kaydet'
             onPress={() => saveChanges()}
             containerStyle={{
               marginTop: 30,
               marginHorizontal: 50,
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
             }}
             buttonStyle={{
               backgroundColor: '#3498db',
@@ -444,7 +463,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#FFFFFF',
     shadowColor: '#333333',
-    shadowOffset: { width: -1, height: -3 },
+    shadowOffset: {width: -1, height: -3},
     shadowRadius: 2,
     shadowOpacity: 0.7,
     elevation: 10,

@@ -1,13 +1,27 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { View, Text, StyleSheet, Alert, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
+import React, {useContext, useEffect, useReducer, useState} from 'react';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Input, Button, Divider, CheckBox } from 'react-native-elements';
+import {Input, Button, Divider, CheckBox} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { AuthContext } from '../contexts/AuthContext';
+import {AuthContext} from '../contexts/AuthContext';
 
-export default function Register({ navigation }) {
-  const { signUp, googleSignIn, loading, errorMessages: errorContext, setErrorMessages: setErrorContext } = useContext(AuthContext);
+export default function Register({navigation}) {
+  const {
+    signUp,
+    googleSignIn,
+    loading,
+    errorMessages: errorContext,
+    setErrorMessages: setErrorContext,
+  } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [age, setAge] = useState(0);
   const [password, setPassword] = useState('');
@@ -16,8 +30,16 @@ export default function Register({ navigation }) {
   const [open, setOpen] = useState(false);
   const [cinsiyet, setCinsiyet] = useState('Belirtilmedi');
   const [items, setItems] = useState([
-    { label: 'Erkek', value: 'Erkek', icon: () => <Icon name='man' size={20} color='red' /> },
-    { label: 'Kadın', value: 'Kadın', icon: () => <Icon name='woman' size={20} color='red' /> }
+    {
+      label: 'Erkek',
+      value: 'Erkek',
+      icon: () => <Icon name='man' size={20} color='red' />,
+    },
+    {
+      label: 'Kadın',
+      value: 'Kadın',
+      icon: () => <Icon name='woman' size={20} color='red' />,
+    },
   ]);
   const [objectState, setObjectState] = useState({
     showPassword: true,
@@ -65,7 +87,7 @@ export default function Register({ navigation }) {
     }
   };
   //confirm Password
-  const validatePassword = (text) => {
+  const validatePassword = text => {
     if (text.trim().length == 0) {
       setPassword(text);
       setErrorMessages({
@@ -126,18 +148,22 @@ export default function Register({ navigation }) {
       return true;
     }
   };
-  const clean = (text) => {
-    const cleanNumber = text.toString().replace(/[^0-9]/g, "");
+  const clean = text => {
+    const cleanNumber = text.toString().replace(/[^0-9]/g, '');
     return cleanNumber;
-  }
+  };
   const handleSubmit = () => {
-    if (validateMail(email) && validateUsername(username) && validateAge(age) && validatePassword(password)) {
+    if (
+      validateMail(email) &&
+      validateUsername(username) &&
+      validateAge(age) &&
+      validatePassword(password)
+    ) {
       signUp(email, password, username, age, cinsiyet);
     }
-  }
+  };
   return (
     <>
-
       <KeyboardAwareScrollView>
         <ScrollView>
           <View style={styles.container}>
@@ -149,9 +175,9 @@ export default function Register({ navigation }) {
               returnKeyType='next'
               leftIcon={<Icon name='mail' size={25} color='black' />}
               containerStyle={styles.inputContainer}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(text) => setEmail(text)}
-              onEndEditing={(e) => validateMail(e.nativeEvent.text)}
+              inputContainerStyle={{borderBottomWidth: 0}}
+              onChangeText={text => setEmail(text)}
+              onEndEditing={e => validateMail(e.nativeEvent.text)}
               errorMessage={errorMessages.eEmail}
               underlineColorAndroid='transparent'
               onFocus={() => setErrorContext(null)}
@@ -162,23 +188,23 @@ export default function Register({ navigation }) {
               returnKeyType='next'
               leftIcon={<Icon name='person' size={25} color='black' />}
               containerStyle={styles.inputContainer}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              onChangeText={(text) => setUsername(text)}
-              onEndEditing={(e) => validateUsername(e.nativeEvent.text)}
+              inputContainerStyle={{borderBottomWidth: 0}}
+              onChangeText={text => setUsername(text)}
+              onEndEditing={e => validateUsername(e.nativeEvent.text)}
               errorMessage={errorMessages.eUsername}
               underlineColorAndroid='transparent'
               onFocus={() => setErrorContext(null)}
             />
 
             <Input
-              placeholder="Yaşınız"
+              placeholder='Yaşınız'
               value={clean(age)}
               labelStyle={styles.inputLabelStyle}
               keyboardType='numeric'
               containerStyle={styles.inputContainer}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              leftIcon={<Icon name="calendar" size={25} color="black" />}
-              onChangeText={(text) => {
+              inputContainerStyle={{borderBottomWidth: 0}}
+              leftIcon={<Icon name='calendar' size={25} color='black' />}
+              onChangeText={text => {
                 const age = clean(text);
                 setAge(age);
               }}
@@ -189,18 +215,18 @@ export default function Register({ navigation }) {
             />
 
             <Input
-              placeholder="Şifreniz"
+              placeholder='Şifreniz'
               value={password}
               containerStyle={styles.inputContainer}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              leftIcon={<Icon name="lock-closed" size={25} color="black" />}
+              inputContainerStyle={{borderBottomWidth: 0}}
+              leftIcon={<Icon name='lock-closed' size={25} color='black' />}
               rightIcon={() => {
                 if (!password == '') {
                   return (
                     <Icon.Button
                       name={objectState.icon}
                       size={25}
-                      color="black"
+                      color='black'
                       backgroundColor='#fff'
                       onPress={() => {
                         onChangeIcon();
@@ -211,14 +237,14 @@ export default function Register({ navigation }) {
               }}
               onFocus={() => setErrorContext(null)}
               underlineColorAndroid='transparent'
-              onChangeText={(e) => setPassword(e)}
+              onChangeText={e => setPassword(e)}
               onEndEditing={e => validatePassword(e.nativeEvent.text)}
               errorMessage={errorMessages.ePassword}
               secureTextEntry={objectState.showPassword}
             />
             <DropDownPicker
               placeholder='Cinsiyet Seçin'
-              placeholderStyle={{ fontFamily: 'Poppins-Regular', fontSize: 14 }}
+              placeholderStyle={{fontFamily: 'Poppins-Regular', fontSize: 14}}
               open={open}
               value={cinsiyet}
               items={items}
@@ -227,21 +253,22 @@ export default function Register({ navigation }) {
               setOpen={setOpen}
               containerStyle={styles.pickerContainerStyle}
               searchable={false}
-              listItemLabelStyle={{ fontFamily: 'Poppins-Regular' }}
-              labelStyle={{ fontFamily: 'Poppins-Regular' }}
+              listItemLabelStyle={{fontFamily: 'Poppins-Regular'}}
+              labelStyle={{fontFamily: 'Poppins-Regular'}}
             />
             <Button
-              containerStyle={{ marginHorizontal: 30, marginTop: 10, width: 250 }}
-              buttonStyle={{ height: 50, borderRadius: 30 }}
-              titleStyle={{ fontFamily: 'Poppins-Regular' }}
-              title="Kayıt Ol"
+              containerStyle={{marginHorizontal: 30, marginTop: 10, width: 250}}
+              buttonStyle={{height: 50, borderRadius: 30}}
+              titleStyle={{fontFamily: 'Poppins-Regular'}}
+              title='Kayıt Ol'
               onPress={handleSubmit}
               loading={loading}
             />
-            {errorContext && (<View style={styles.errorMessageContainer}>
-              <Text style={styles.errorMessage}>{errorContext}</Text>
-            </View>)
-            }
+            {errorContext && (
+              <View style={styles.errorMessageContainer}>
+                <Text style={styles.errorMessage}>{errorContext}</Text>
+              </View>
+            )}
             <View
               style={{
                 flexDirection: 'row',
@@ -249,23 +276,38 @@ export default function Register({ navigation }) {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{ color: 'gray', fontFamily: 'Poppins-Regular' }}>Zaten hesabın var mı? </Text>
+              <Text style={{color: 'gray', fontFamily: 'Poppins-Regular'}}>
+                Zaten hesabın var mı?{' '}
+              </Text>
               <Text
                 onPress={() => navigation.navigate('Login')}
-                style={{ color: '#046582', fontFamily: 'Poppins-Regular' }}>
+                style={{color: '#046582', fontFamily: 'Poppins-Regular'}}>
                 Giriş Yap
-          </Text>
+              </Text>
             </View>
-            <TouchableOpacity style={[styles.buttonContainer, styles.fabookButton]}>
+            <TouchableOpacity
+              style={[styles.buttonContainer, styles.fabookButton]}>
               <View style={styles.socialButtonContent}>
-                <Icon name='logo-facebook' size={20} color='white' style={styles.socialIcon} />
+                <Icon
+                  name='logo-facebook'
+                  size={20}
+                  color='white'
+                  style={styles.socialIcon}
+                />
                 <Text style={styles.loginText}>Facebook ile giriş yap</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.buttonContainer, styles.googleButton]} onPress={() => googleSignIn()}>
+            <TouchableOpacity
+              style={[styles.buttonContainer, styles.googleButton]}
+              onPress={() => googleSignIn()}>
               <View style={styles.socialButtonContent}>
-                <Icon name='logo-google' size={20} color='white' style={styles.socialIcon} />
+                <Icon
+                  name='logo-google'
+                  size={20}
+                  color='white'
+                  style={styles.socialIcon}
+                />
                 <Text style={styles.loginText}>Google ile giriş yap</Text>
               </View>
             </TouchableOpacity>
@@ -291,7 +333,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontFamily: 'Poppins-BoldItalic',
     color: 'black',
-    fontSize: 40
+    fontSize: 40,
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -310,7 +352,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontFamily: 'Poppins-SemiBold',
-    color: 'black'
+    color: 'black',
   },
   buttonContainer: {
     height: 45,
@@ -323,17 +365,17 @@ const styles = StyleSheet.create({
   },
   socialIcon: {
     color: 'white',
-    marginLeft: 10
+    marginLeft: 10,
   },
   fabookButton: {
-    backgroundColor: '#3b5998'
+    backgroundColor: '#3b5998',
   },
   googleButton: {
-    backgroundColor: '#de5246'
+    backgroundColor: '#de5246',
   },
   loginText: {
     color: 'white',
-    fontFamily: 'Poppins-Regular'
+    fontFamily: 'Poppins-Regular',
   },
   pickerContainerStyle: {
     width: 250,
@@ -345,12 +387,12 @@ const styles = StyleSheet.create({
   errorMessageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 20
+    margin: 20,
   },
   errorMessage: {
     fontFamily: 'Poppins-Medium',
     fontSize: 15,
     textAlign: 'center',
-    color: 'red'
-  }
+    color: 'red',
+  },
 });

@@ -1,13 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Modal,
-  View,
-  Text
-} from 'react-native';
-import {
-  CheckBox,
-  Button
-} from 'react-native-elements';
+import React, {useState} from 'react';
+import {Modal, View, Text} from 'react-native';
+import {CheckBox, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const PickPetModal = props => {
@@ -64,10 +57,10 @@ const PickPetModal = props => {
   return (
     <Modal
       visible={props.visible}
-      animationType="slide"
+      animationType='slide'
       onRequestClose={props.onRequestClose}>
-      <View style={{ justifyContent: 'center', margin: 10 }}>
-        <Text style={{ textAlign: 'center', fontSize: 25 }}>
+      <View style={{justifyContent: 'center', margin: 10}}>
+        <Text style={{textAlign: 'center', fontSize: 25}}>
           Bakabileceğin petler
         </Text>
       </View>
@@ -76,28 +69,28 @@ const PickPetModal = props => {
         return (
           <CheckBox
             checkedIcon={
-              <Icon name="checkmark-circle-outline" size={25} color="black" />
+              <Icon name='checkmark-circle-outline' size={25} color='black' />
             }
             uncheckedIcon={
-              <Icon name="ellipse-outline" size={25} color="black" />
+              <Icon name='ellipse-outline' size={25} color='black' />
             }
             title={cb.title}
             key={cb.id}
             checked={cb.checked}
             onPress={() => toggleCheckboxes(cb.id)}
-            textStyle={{ fontSize: 18, fontWeight: '300' }}
+            textStyle={{fontSize: 18, fontWeight: '300'}}
           />
         );
       })}
 
       <Button
-        title="Tamam"
+        title='Tamam'
         onPress={() => {
           sendValuesToParent();
           props.onRequestClose();
         }}
-        titleStyle={{ fontSize: 20, fontWeight: '500' }}
-        buttonStyle={{ backgroundColor: 'tomato', margin: 30 }}
+        titleStyle={{fontSize: 20, fontWeight: '500'}}
+        buttonStyle={{backgroundColor: 'tomato', margin: 30}}
       />
     </Modal>
   );
